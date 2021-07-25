@@ -5,24 +5,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Оброботчики будут вызывать методы сервиса, поэтому в структуре указатель на сервисы
 type Handler struct {
 	services *service.Service
 }
 
+// Внедрение зависимотсей от сервиса
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
+// Функция для инициализации endpoints
 func (h *Handler) InitRoutes() *gin.Engine {
+	// Для разработки REST API используем WEB/HTTP-фреймворк Gin
+	// Для инициализации роутера вызовем Gim.New()
 	router := gin.New()
 
+	// Обьявление методов згрупировав их по группам
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sing-up", h.signUp)
-		auth.POST("/sing-in", h.signIn)
+		auth.POST("/sign-up", h.signUp)
+		auth.POST("/sign-in", h.signIn)
 	}
 
-	api := router.Group("/api")
+	api := router.Group("/api", h.userIdentity)
 	{
 		lists := api.Group("/lists")
 		{
