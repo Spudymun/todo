@@ -56,6 +56,7 @@ func main() {
 // Ф-ция инициализации конф. файлов
 func initConfig() error {
 	viper.AddConfigPath("configs")
+	//viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
 	// Возырат ф-ции котрая считывает конфиги и записывает их во внутренний обьек вайпера
 	return viper.ReadInConfig()
